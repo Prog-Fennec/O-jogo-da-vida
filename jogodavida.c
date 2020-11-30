@@ -2,50 +2,66 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#define L 30
+#define C 30
 
-int main(){
+int TABULEIRO[L][C], TABVERI[L][C];              
 
-  int nGer;
-  printf("Insira o numero de geracoes:\n");
-  scanf("%d", &nGer);
-
-  srand(time(NULL));
-
-  int GRID[30][30];
-
-  //Setando todo o tabuleiro como 0
-  for (int i = 0; i < 30; i++) {
-        for (int j = 0; j < 30; j++) {
-          GRID[i][j] = 0;
-        }
-  }
-
-  //Gerando números
-  for (int i = 0; i < 30; i++){
-    for (int j = 0; j < 30; j++) {
-      GRID[i][j] = rand()%2;
+void TABVERIV0(){
+  for(int l = 0; l < L; l++){
+    for (int c = 0; c < C; c++){
+      TABVERI[l][c] = 0;
     }
   }
+}
 
-  for (int i = 0; i < nGer; i++){
-    printf("Geracao %d:\n", i+1);
-    for(int linha = 0 ; linha < 30 ; linha++){
-          for(int coluna = 0 ; coluna < 30 ; coluna++){
-              if(GRID[linha][coluna] == 0){
-                  printf("  ");
-              }
-              if(GRID[linha][coluna] == 1){
-                  printf("O ");
-              }
-          }
-          putchar('\n');
+
+int ContadorTab(int y,int x){
+  int c = 0;
+  for(int i = y-1; i <= y+1; i++){
+    for (int j = x-1; j <= x+1; j++){
+      if ((i >= 0 && j >= 0) && (i < 30 && j < 30)){
+        if (i == y && j == x){}else{
+          if (TABULEIRO[i][j] == 1){c ++;}
+        }
       }
-    sleep(4);
-    system("cls");
+    }
   }
+  return c;
+}
 
-  //Contando vizinhos
+
+void TABparaTAB(){
+  for(int l = 0; l < L; l++){
+    for (int c = 0; c < C; c++){
+      if (TABVERI[l][c] == 1 && TABULEIRO[l][c] == 0){
+          TABULEIRO[l][c] = 1;
+        }else if (TABVERI[l][c] == 1 && TABULEIRO[l][c] == 1){
+          TABULEIRO[l][c] = 0;
+        }
+    }
+  }
+}
 
 
-  return 0;
+void regras(){
+  TABVERIV0();
+  for(int l = 0; l < L; l++){
+    for (int c = 0; c < C; c++){
+      int Contador = ContadorTab(l,c);
+      
+      //regras 1, 2 e 3
+      if (TABULEIRO[l][c] == 1) {
+        if (Contador < 2 || Contador > 3) {TABVERI[l][c] = 1;}
+      }
+      
+      //regra 4
+      if (TABULEIRO[l][c] == 0){
+        if (Contador == 3){
+          TABVERI[l][c] = 1;
+        }
+      }
+    }
+  }
+  TABparaTAB();
 }
