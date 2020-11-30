@@ -7,6 +7,25 @@
 
 int TABULEIRO[L][C], TABVERI[L][C];              
 
+void VisuTab()
+{
+  for(int l = 0; l < L; l++)
+  {
+    for (int c = 0; c < C; c++)
+    {
+      if(TABULEIRO[l][c] == 0)
+      {
+        printf("  ");
+      }
+      else
+      {
+        printf("O ");}
+      }
+    printf("\n");
+  }
+}
+
+
 void TABVERIV0(){
   for(int l = 0; l < L; l++){
     for (int c = 0; c < C; c++){
@@ -65,3 +84,38 @@ void regras(){
   }
   TABparaTAB();
 }
+
+
+void TabAlea()
+{
+  srand(time(NULL));
+  
+  for (int l = 0; l < L; l++)
+  {
+    for (int c = 0; c < C; c++)
+    {
+      TABULEIRO[l][c] = rand()%2;
+    }
+  }
+  VisuTab();
+}
+
+
+void TabPreDef()
+{
+  int c, l;
+
+  for(;;)
+  {
+    printf("Indique a posicao da célula viva(-1 -1 = fim):\n");
+    scanf("%d %d", &l, &c);
+    if(l == -1 && c == -1)
+    {
+      break;
+    }
+    TABULEIRO[l][c] = 1;
+    VisuTab();
+    system("cls");
+  }
+}
+
