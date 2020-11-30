@@ -119,3 +119,34 @@ void TabPreDef()
   }
 }
 
+void Geracoes(int G){
+
+  system("cls");
+  printf("Geração 1:\n");
+  VisuTab();
+  sleep(1);
+  for (int i = 2; i <= G; i++){
+    regras();
+    system("cls");
+    printf("Geração %d:\n", i);
+    VisuTab();
+    sleep(1);
+  }
+}
+
+int main(){
+
+  printf("Digite:\n[1]Aleatório\n[2]Definir\n");
+  int a;
+  scanf("%d", &a);
+  if (a == 2){TabPreDef();}else if(a == 1){
+    TabAlea();
+  }
+  printf("Quantas gerações são:\n");
+  int geracoes;
+  scanf("%d", &geracoes);
+
+  Geracoes(geracoes);
+
+  return 0;
+}
